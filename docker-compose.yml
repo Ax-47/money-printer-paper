@@ -1,0 +1,30 @@
+services:
+  # เซอร์วิสหลัก: คอมไพล์โปรเจกต์เป็น PDF
+  latex:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: cskku-latex:latest
+    container_name: cskku-latex-builder
+    volumes:
+      - .:/workspace
+    working_dir: /workspace
+    command: latexmk main.tex
+
+  # โหมด Watch: เฝ้าดูการแก้ไขไฟล์แล้วคอมไพล์ใหม่อัตโนมัติ (Live Preview / Auto Recompile)
+  watch:
+    image: cskku-latex:latest
+    container_name: cskku-latex-watcher
+    volumes:
+      - .:/workspace
+    working_dir: /workspace
+    command: latexmk -pvc main.tex
+
+  # ล้างไฟล์ temp / แคชที่เกิดจากการคอมไพล์ (.aux, .log, .toc, .out ฯลฯ)
+  clean:
+    image: cskku-latex:latest
+    container_name: cskku-latex-cleaner
+    volumes:
+      - .:/workspace
+    working_dir: /workspace
+    command: latexmk -C main.tex

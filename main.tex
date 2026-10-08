@@ -1,0 +1,123 @@
+\documentclass{cskkuproject}
+
+% ==========================================
+% ข้อมูลโครงงาน — กรอกข้อมูลจากเอกสาร Proposal
+% ==========================================
+
+\titleTH{การวิเคราะห์และทำนายผลการแข่งขันฟุตบอลพรีเมียร์ลีกอังกฤษด้วยกระบวนการวิทยาการข้อมูลสำหรับนักเดิมพัน}
+\titleEN{A Data Science Approach to Analyzing and Predicting English Premier League Match Outcomes for Gamblers}
+
+% ข้อมูลนักศึกษาคนที่ 1
+\firstStudentID{683380667-9}
+\firstStudentPrefixTH{นาย}
+\firstStudentPrefixEN{Mr.}
+\firstStudentNameTH{ภาณุพงศ์ ภูสำรอง}
+\firstStudentNameEN{Panupong Phoosamrong}
+
+% ข้อมูลนักศึกษาคนที่ 2
+\secondStudentID{683380653-0}
+\secondStudentPrefixTH{นาย}
+\secondStudentPrefixEN{Mr.}
+\secondStudentNameTH{ชินภัทร บัวผาย}
+\secondStudentNameEN{Chinnapat Buaphai}
+
+% ข้อมูลหลักสูตร
+\degreeTH{วิทยาศาสตรบัณฑิต}
+\degreeEN{Bachelor of Science}
+\majorTH{วิทยาการคอมพิวเตอร์}
+\majorEN{Computer Science}
+
+% อาจารย์ที่ปรึกษา (สามารถแก้ไขชื่ออาจารย์เพิ่มเติมได้ที่นี่)
+\advisorTH{อ.ธนพล ตั้งชูพงศ์}
+\advisorEN{Lect. Thanapon Tangchoopong, Ph.D.}
+
+% ปีการศึกษา
+\academicYearTH{2569}
+\academicYearEN{2026}
+
+% รหัสวิชาและภาคการศึกษา
+\courseCode{CP354 772}
+\courseName{โครงงานคอมพิวเตอร์ 2}
+\semester{1}
+
+% คำสำคัญ
+\keywordsTH{วิทยาการข้อมูล, การทำนายผลการแข่งขันฟุตบอล, พรีเมียร์ลีกอังกฤษ, การเรียนรู้ของเครื่อง, อัตราต่อรอง}
+\keywordsEN{Data Science, Football Match Outcome Prediction, English Premier League, Machine Learning, Betting Odds}
+
+
+\begin{document}
+
+% ==========================================
+% หน้าปก
+% ==========================================
+\maketitlepage
+
+% ตั้งค่าเลขหน้าส่วนต้นเป็นอักษรไทย (ก, ข, ค, ...)
+\pagenumbering{arabic}
+\setcounter{page}{0}
+\renewcommand{\thepage}{\ThaiAlph{\value{page}}}
+
+% ==========================================
+% บทคัดย่อ
+% ==========================================
+\begin{abstractTH}
+\input{abstractTH}
+\end{abstractTH}
+
+\begin{abstractEN}
+\input{abstractEN}
+\end{abstractEN}
+
+% ==========================================
+% กิตติกรรมประกาศ
+% ==========================================
+\begin{acknowledgement}
+\input{acknowledgement}
+\end{acknowledgement}
+
+% ==========================================
+% สารบัญ
+% ==========================================
+\tableofcontents
+\clearpage
+\listoffigures
+\clearpage
+\listoftables
+\clearpage
+
+% ==========================================
+% เนื้อเรื่อง 5 บท
+% ==========================================
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\chapterone
+\chaptertwo
+\chapterthree
+\chapterfour
+\chapterfive
+
+% ==========================================
+% เอกสารอ้างอิง
+% ==========================================
+\clearpage
+\addcontentsline{toc}{chapter}{เอกสารอ้างอิง}
+\makeatletter
+\let\ps@plain\ps@empty
+\makeatother
+\bibliographystyle{ieeetr}
+\bibliography{references}
+
+% ==========================================
+% ภาคผนวก
+% ==========================================
+\input{appendices}
+
+% ==========================================
+% ประวัติผู้เขียน
+% ==========================================
+\begin{biography}
+\input{biography}
+\end{biography}
+
+\end{document}
