@@ -2,69 +2,84 @@
 % บทที่ 3 - วิธีดำเนินงานโครงงาน
 % =============================================================
 
-ในการดำเนินโครงงาน "การวิเคราะห์และทำนายผลการแข่งขันฟุตบอลพรีเมียร์ลีกอังกฤษด้วยกระบวนการวิทยาการข้อมูล (English Premier League Match Analysis and Prediction Using Data Science Process)" ผู้จัดทำได้กำหนดขั้นตอนการดำเนินงานตามกระบวนการวิทยาการข้อมูล (Data Science Pipeline) เพื่อให้การวิเคราะห์และการพัฒนาแบบจำลองมีความเป็นระบบ แม่นยำ และสามารถตรวจสอบซ้ำได้ โดยแบ่งขั้นตอนการดำเนินงานออกเป็น 5 ส่วนหลัก ดังนี้
+ในการดำเนินโครงงาน "การวิเคราะห์และทำนายผลการแข่งขันฟุตบอลพรีเมียร์ลีกอังกฤษด้วยกระบวนการวิทยาการข้อมูล (English Premier League Match Analysis and Prediction Using Data Science Process)" ผู้จัดทำได้ออกแบบและพัฒนาท่อส่งข้อมูลเชิงโมดูลาร์ (Modular Data Pipeline) ตามกระบวนการวิทยาการข้อมูล เพื่อให้ระบบสามารถประมวลผลข้อมูลที่มีความซับซ้อน ป้องกันปัญหาข้อมูลอนาคตรั่วไหล (Data Leakage) และรองรับการทดสอบคุณภาพระบบอย่างเป็นระบบ โดยแบ่งขั้นตอนการดำเนินงานออกเป็น 5 ส่วนหลัก ดังนี้
 
 \begin{enumerate}[label=\arabic*)]
     \item การวิเคราะห์และกำหนดแนวทางการพัฒนาโครงงาน
-    \item การเก็บรวบรวมและเตรียมข้อมูล (Data Collection \& Preparation)
-    \item การวิศวกรรมฟีเจอร์และการออกแบบระบบ (Feature Engineering \& System Architecture)
-    \item การพัฒนาและปรับแต่งแบบจำลองการเรียนรู้ของเครื่อง (Model Development \& Hyperparameter Tuning)
-    \item การทดสอบและประเมินผลระบบ (Testing \& Evaluation Framework)
+    \item การเก็บรวบรวมข้อมูลและการประมวลผลเบื้องต้น (Data Collection \& Ingestion)
+    \item การตรวจสอบความถูกต้องและการเตรียมข้อมูล (Data Schema Validation \& Entity Resolution)
+    \item การวิศวกรรมฟีเจอร์และการออกแบบสถาปัตยกรรมระบบ (Feature Engineering \& System Architecture)
+    \item การพัฒนาแบบจำลอง การแบ่งชุดข้อมูล และกรอบการประเมินผล (Model Development \& Evaluation Framework)
 \end{enumerate}
 
 % -----------------------------------------------------------
 \section{การวิเคราะห์และกำหนดแนวทางการพัฒนาโครงงาน}
 % -----------------------------------------------------------
 
-การทำนายผลการแข่งขันฟุตบอลมีความซับซ้อนสูงเนื่องจากปัจจัยรอบด้านที่ส่งผลต่อผลการแข่งขัน โครงงานนี้จึงมุ่งเน้นการใช้ประโยชน์จากข้อมูลสถิติล่วงหน้าและประวัติการแข่งขันย้อนหลังเพื่อสร้างตัวแปรทำนายที่มีประสิทธิภาพ โดยมีแนวทางการดำเนินงานดังนี้
+การทำนายผลการแข่งขันฟุตบอลมีความซับซ้อนสูงเนื่องจากปัจจัยรอบด้านที่ส่งผลต่อผลการแข่งขัน โครงงานนี้จึงมุ่งเน้นการใช้ประโยชน์จากข้อมูลสถิติล่วงหน้า ข้อมูลคุณลักษณะเชิงลึก และประวัติการแข่งขันย้อนหลัง โดยมีแนวทางการดำเนินงานดังนี้
 
 \begin{enumerate}[label=\arabic*)]
-    \item \textbf{ศึกษาทฤษฎีและงานวิจัยที่เกี่ยวข้อง:} ศึกษาหลักการคำนวณ Elo Rating System สำหรับกีฬาประเภททีม \cite{hvattum2010using}, ทฤษฎีค่าความน่าจะเป็นของประตูที่คาดว่าจะเกิดขึ้น (Expected Goals: xG) \cite{understat2024}, และการประยุกต์ใช้แบบจำลองการเรียนรู้ของเครื่องแบบ Ensemble Learning เช่น XGBoost และ LightGBM
-    \item \textbf{กำหนดขอบเขตและเป้าหมายการทำนาย:} กำหนดเป้าหมายการทำนายผลการแข่งขันออกเป็น 3 รูปแบบ (Multi-class Classification) ได้แก่ เจ้าบ้านชนะ (Home Win: H), เสมอ (Draw: D), และ ทีมเยือนชนะ (Away Win: A) สำหรับแมตช์การแข่งขันฟุตบอลพรีเมียร์ลีกอังกฤษตั้งแต่ฤดูกาล 2014/2015 ถึง 2023/2024
-    \item \textbf{กำหนดเครื่องมือและสภาพแวดล้อมการพัฒนา:} ใช้ภาษา Python 3.10+ บนระบบปฏิบัติการ Linux/Windows ร่วมกับไลบรารีวิเคราะห์ข้อมูล เช่น Pandas, NumPy, Scikit-learn, XGBoost, LightGBM และ Seaborn
+    \item \textbf{ศึกษาทฤษฎีและงานวิจัยที่เกี่ยวข้อง:} ศึกษาหลักการคำนวณระบบประเมินศักยภาพเชิงสัมพัทธ์ (Elo Rating System) \cite{hvattum2010using}, ทฤษฎีค่าความน่าจะเป็นของประตูที่คาดว่าจะเกิดขึ้น (Expected Goals: xG) \cite{understat2024}, การคำนวณดัชนีความเหนื่อยล้าสะสม (Fatigue Index) และการทำวิศวกรรมฟีเจอร์แบบอนุกรมเวลา (Time-Series Feature Engineering)
+    \item \textbf{กำหนดขอบเขตและเป้าหมายการทำนาย:} กำหนดเป้าหมายการทำนายผลการแข่งขันออกเป็น 3 รูปแบบ (Multi-class Classification) ได้แก่ เจ้าบ้านชนะ (Home Win: H), เสมอ (Draw: D), และ ทีมเยือนชนะ (Away Win: A) สำหรับแมตช์การแข่งขันฟุตบอลพรีเมียร์ลีกอังกฤษ
+    \item \textbf{กำหนดเครื่องมือและสภาพแวดล้อมการพัฒนา:} พัฒนาระบบด้วยภาษา Python 3.10+ ร่วมกับเครื่องมือบริหารจัดการสภาพแวดล้อมเสมือนและการจัดสรรไลบรารีประสิทธิภาพสูง (\texttt{uv}) ควบคู่กับไลบรารีวิเคราะห์ข้อมูลตารางขนาดใหญ่ (Polars), เครื่องมือตรวจสอบสัญญาข้อมูล (Pandera และ Pydantic), ไลบรารีเรียนรู้ของเครื่อง (Scikit-learn), ระบบทดสอบซอฟต์แวร์อัตโนมัติ (Pytest) และระบบตรวจทานคุณภาพโค้ด (Ruff)
 \end{enumerate}
 
 % -----------------------------------------------------------
-\section{การเก็บรวบรวมและเตรียมข้อมูล (Data Collection \& Preparation)}
+\section{การเก็บรวบรวมข้อมูลและการประมวลผลเบื้องต้น (Data Collection \& Ingestion)}
 % -----------------------------------------------------------
 
-\subsection{การเตรียมข้อมูลดิบ (Raw Data Collection)}
+\subsection{การเก็บรวบรวมข้อมูลดิบแบบหลายแหล่ง (Multi-Source Data Scraping)}
 
-ผู้จัดทำได้ทำการรวบรวมข้อมูลการแข่งขันย้อนหลังจำนวน 10 ฤดูกาล (ฤดูกาล 2014/2015 ถึง 2023/2024) รวมทั้งสิ้น 3,800 แมตช์ จาก 4 แหล่งข้อมูลหลัก ดังนี้
+ผู้จัดทำได้พัฒนาระบบดึงข้อมูลอัตโนมัติ (Automated Data Collection Pipeline) เพื่อรวบรวมข้อมูลจาก 4 แหล่งข้อมูลหลักภายนอกที่มีโครงสร้างหลากหลาย ดังนี้
 
 \begin{enumerate}[label=\arabic*)]
-    \item \textbf{Kaggle / Football-Data.co.uk:} ข้อมูลสถิติพื้นฐานหลังจบเกม ได้แก่ ผลการแข่งขันจริง, จำนวนยิงประตู, ยิงตรงกรอบ, ฟาวล์, ใบเหลือง, ใบแดง และราคาต่อรองเฉลี่ยจากเจ้ามือรับพนัน (Bookmaker Odds) \cite{kaggle2024}
-    \item \textbf{FBref / StatsBomb:} ข้อมูลสถิติเชิงลึกระดับการแข่งขัน เช่น ค่า xG, xGA (Expected Goals Against), อัตราการครองบอล, และการส่งบอลสำเร็จ \cite{fbref2024}
-    \item \textbf{Transfermarkt:} ข้อมูลมูลค่าการตลาดของทีม (Team Market Value) และประวัติผู้เล่นบาดเจ็บหรือติดโทษแบน \cite{transfermarkt2024}
-    \item \textbf{Understat:} ข้อมูลสถิติ xG และ xGA ระดับช็อตต่อช็อต (Shot-by-Shot Expected Goals) เพื่อนำมาคำนวณประสิทธิภาพการทำประตู \cite{understat2024}
+    \item \textbf{ฐานข้อมูลสถิติการแข่งขันและผู้เล่น (FBref):} ดึงข้อมูลตารางการแข่งขัน ผลการแข่งขันจริง สถิติลายบุคคลของนักเตะในแต่ละนัด และสถิติเชิงลึกหลังจบเกม \cite{fbref2024}
+    \item \textbf{ฐานข้อมูลวิเคราะห์โอกาสทำประตู (Understat):} ดึงข้อมูลสถิติค่าความคาดหวังในการทำประตู (xG) สถิติกราฟการยิงประตูรายนัด และรายชื่อผู้เล่น 11 ตัวจริง (Lineups) \cite{understat2024}
+    \item \textbf{ฐานข้อมูลประเมินมูลค่าสโมสร (Transfermarkt):} ดึงข้อมูลมูลค่าการตลาดรวมของสโมสร (Team Market Value) เพื่อใช้เป็นตัวแทนสะท้อนขนาดและศักยภาพขุมกำลังนักเตะ \cite{transfermarkt2024}
+    \item \textbf{ฐานข้อมูลอัตราต่อรองประวัติศาสตร์ (Kaggle / Historical Odds):} รวบรวมสถิติราคาต่อรองการเดิมพันย้อนหลัง (Bookmaker Betting Odds) เพื่อนำมาคำนวณหาความน่าจะเป็นประเมินโดยตลาด (Implied Probabilities) \cite{kaggle2024}
 \end{enumerate}
 
-\subsection{การทำความสะอาดและจับคู่ข้อมูล (Data Cleaning \& Entity Resolution)}
+\subsection{การตรวจสอบความถูกต้องของข้อตกลงข้อมูล (Data Schema Validation)}
 
-เนื่องจากข้อมูลมาจากต่างแหล่ง ทำให้การสะกดชื่อทีมมีความแตกต่างกัน เช่น "Man Utd", "Manchester United", "Man United" ผู้จัดทำจึงทำการรวมข้อมูลเข้าด้วยกันด้วยกระบวนการ Entity Resolution ผ่านการสร้างพจนานุกรมแปลงชื่อทีม (Name Mapping Dictionary) ดังแสดงในรูปที่ \ref{fig:entity_resolution} เพื่อกำหนดรหัสทีม (Team ID) และรหัสแมตช์ (Match ID) ให้เป็นมาตรฐานเดียวกันก่อนทำการ Merge ข้อมูลตามลำดับวันที่แข่ง
+เพื่อป้องกันข้อผิดพลาดจากโครงสร้างข้อมูลดิบที่ไม่สอดคล้องกัน ระบบได้ประยุกต์ใช้แนวคิดสัญญาข้อมูล (Data Contracts) ผ่านการตรวจสอบความถูกต้องแบบอัตโนมัติ โดยแบ่งการตรวจออกเป็น 3 ระดับ ดังนี้
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.75\textwidth]{images/entity_resolution.png}
-    \caption{กระบวนการจับคู่และแปลงชื่อทีม (Entity Resolution) จากแหล่งข้อมูลที่แตกต่างกัน}
-    \label{fig:entity_resolution}
-\end{figure}
+\begin{itemize}
+    \item \textbf{โครงสร้างข้อมูลดิบ (Raw Data Schema):} ตรวจสอบไฟล์ข้อมูลดิบหลังสแครปว่ามีคอลัมน์จำเป็นและชนิดข้อมูลพื้นฐานถูกต้องหรือไม่
+    \item \textbf{โครงสร้างข้อมูลสะอาด (Clean Data Schema):} ตรวจสอบประเภทข้อมูล ขอบเขตตัวเลขที่เป็นไปได้ และขจัดค่าว่าง (Null Values) หลังผ่านกระบวนการทำความสะอาด
+    \item \textbf{โครงสร้างข้อมูลรวม (Joined Data Schema):} ตรวจสอบความสมบูรณ์และความสัมพันธ์ของตารางข้อมูลรวมก่อนส่งต่อไปยังกระบวนการสร้างตัวแปรทำนาย
+\end{itemize}
+
+\subsection{การทำความสะอาดและจับคู่ข้อมูล (Entity Resolution)}
+
+เนื่องจากชื่อสโมสรฟุตบอลในแต่ละแหล่งข้อมูลมีการบันทึกที่ไม่ตรงกัน เช่น \texttt{"Man Utd"}, \texttt{"Manchester Utd"} และ \texttt{"Manchester United"} ระบบจึงได้นำกระบวนการแปลงเอนทิตีให้เป็นมาตรฐาน (Entity Resolution) มาใช้ผ่านพจนานุกรมเทียบเคียงชื่อสโมสร (Name Mapping Dictionary) โดยกำหนดรหัสสโมสรมาตรฐาน (Canonical Team Code) เพื่อเชื่อมโยงตารางข้อมูล (Data Joining) จากทุกแหล่งเข้าด้วยกันอย่างถูกต้อง 100\%
 
 % -----------------------------------------------------------
-\section{การออกแบบและพัฒนาระบบ (Pipeline \& Feature Engineering)}
+\section{การออกแบบสถาปัตยกรรมระบบและการวิศวกรรมฟีเจอร์ (System Architecture \& Feature Engineering)}
 % -----------------------------------------------------------
 
-ระบบถูกออกแบบให้ทำงานเป็นสถาปัตยกรรมกระบวนการประมวลผลข้อมูลอัตโนมัติ (Automated Data Pipeline) ดังแสดงในรูปที่ \ref{fig:system_architecture} โดยแบ่งขั้นตอนการพัฒนาระบบออกเป็น 3 ส่วนหลัก
+สถาปัตยกรรมของระบบถูกออกแบบให้ทำงานเป็นท่อส่งข้อมูลอัตโนมัติ (Automated Data Pipeline) แบบโมดูลาร์ ซึ่งแบ่งการทำงานตามลำดับขั้นแสดงดังตารางที่ \ref{tab:pipeline_architecture}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{images/system_architecture.png}
-    \caption{ผังแสดงสถาปัตยกรรมและกระบวนการประมวลผลข้อมูล (Data Pipeline Architecture)}
-    \label{fig:system_architecture}
-\end{figure}
+\begin{table}[htbp]
+\centering
+\caption{สถาปัตยกรรมโมดูลการประมวลผลข้อมูลในระบบ (Data Pipeline Modules)}
+\label{tab:pipeline_architecture}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|c|l|l|}
+\hline
+\textbf{ลำดับ} & \textbf{ชื่อโมดูล (Module Name)} & \textbf{หน้าที่การทำงานหลัก (Primary Function)} \\
+\hline
+1 & Data Scraping \& Ingestion & ดึงข้อมูลดิบจาก FBref, Understat, Transfermarkt และ Kaggle \\ \hline
+2 & Schema Validation & ตรวจสอบคุณภาพและประเภทข้อมูลตามสัญญาข้อมูล (Data Contracts) \\ \hline
+3 & Entity Resolution & แปลงชื่อสโมสรจากทุกแหล่งข้อมูลให้เป็นรหัสมาตรฐานเดียวกัน \\ \hline
+4 & Feature Engineering & คำนวณคะแนน Elo, ค่า xG สะสม, ดัชนีความเหนื่อยล้า และ Rolling Averages \\ \hline
+5 & Model Training \& Evaluation & แบ่งข้อมูลตามลำดับเวลา ฝึกสอนแบบจำลอง และประเมินผลประสิทธิภาพ \\
+\hline
+\end{tabular}%
+}
+\end{table}
 
-\subsection{การคำนวณคะแนน Elo Rating}
-คำนวณคะแนนความแข็งแกร่งของทีมย้อนหลัง โดยปรับปรุงค่า Elo หลังจบทุกแมตช์ตามผลการแข่งขันจริงและผลต่างประตู โดยค่าความน่าจะเป็นคาดหวัง ($E_A$ และ $E_B$) และการปรับคะแนนคำนวณได้จากสมการที่ (\ref{eq:elo_expected}) และ (\ref{eq:elo_update})
+\subsection{การคำนวณคะแนนความแข็งแกร่งเชิงสัมพัทธ์ (Elo Rating Calculation)}
+ระบบทำการคำนวณคะแนนความแข็งแกร่งของสโมสรย้อนหลังตามลำดับเวลา โดยปรับปรุงค่า Elo หลังจบทุกแมตช์การแข่งขันตามผลการแข่งขันจริงและผลต่างประตู ซึ่งค่าความน่าจะเป็นคาดหวัง ($E_A$) และการปรับปรุงคะแนน Elo ใหม่ ($R'_A$) คำนวณได้จากสมการที่ (\ref{eq:elo_expected}) และ (\ref{eq:elo_update})
 
 \begin{equation}
     E_A = \frac{1}{1 + 10^{(R_B - R_A)/400}}
@@ -76,13 +91,15 @@
     \label{eq:elo_update}
 \end{equation}
 
-โดยที่ $R_A, R_B$ คือคะแนน Elo ของทีมเจ้าบ้านและทีมเยือนก่อนแข่ง, $S_A$ คือผลการแข่งจริง ($1$ เมื่อชนะ, $0.5$ เมื่อเสมอ, $0$ เมื่อแพ้) และ $K$ คือค่าพารามิเตอร์การปรับน้ำหนัก ($K=20$) ดังโค้ดตัวอย่างในรายการที่ \ref{lst:elo_code}
+โดยที่ $R_A, R_B$ คือคะแนน Elo ของทีมเจ้าบ้านและทีมเยือนก่อนแข่ง, $S_A$ คือผลการแข่งขันจริง ($1$ เมื่อชนะ, $0.5$ เมื่อเสมอ, $0$ เมื่อแพ้) และ $K$ คือค่าพารามิเตอร์การปรับน้ำหนัก ($K=20$) ตัวอย่างขั้นตอนการคำนวณและอัปเดตคะแนนแสดงดังรายการที่ \ref{lst:elo_code}
 
-\begin{lstlisting}[language=Python, caption={การคำนวณและปรับปรุงคะแนน Elo Rating}, label={lst:elo_code}]
-def update_elo(home_elo, away_elo, home_score, away_score, k=20):
+\noindent
+\begin{minipage}{\textwidth}
+\begin{lstlisting}[language=Python, caption={ฟังก์ชันการคำนวณและปรับปรุงคะแนน Elo Rating}, label={lst:elo_code}]
+def update_elo(home_elo: float, away_elo: float, home_score: int, away_score: int, k: float = 20.0):
     # คำนวณความน่าจะเป็นคาดหวัง (Expected Outcome)
-    e_home = 1 / (1 + 10 ** ((away_elo - home_elo) / 400))
-    e_away = 1 - e_home
+    e_home = 1.0 / (1.0 + 10.0 ** ((away_elo - home_elo) / 400.0))
+    e_away = 1.0 - e_home
     
     # กำหนดผลลัพธ์จริง (Actual Outcome)
     if home_score > away_score:
@@ -92,54 +109,40 @@ def update_elo(home_elo, away_elo, home_score, away_score, k=20):
     else:
         s_home, s_away = 0.0, 1.0
         
-    # ปรับปรุงคะแนน
+    # ปรับปรุงคะแนน Elo ใหม่
     new_home_elo = home_elo + k * (s_home - e_home)
     new_away_elo = away_elo + k * (s_away - e_away)
     return new_home_elo, new_away_elo
 \end{lstlisting}
+\end{minipage}
+\subsection{การคำนวณดัชนีความเหนื่อยล้าสะสม (Fatigue Index Calculation)}
+ระบบคำนวณตัวแปรความเหนื่อยล้าของสโมสรโดยพิจารณาจากจำนวนวันพักผ่อน (Days Rest) ระหว่างการแข่งขันนัดปัจจุบันกับนัดก่อนหน้า ควบคู่กับความหนาแน่นของโปรแกรมการแข่งขันย้อนหลังในช่วงเวลา 14 ถึง 30 วัน เพื่อให้แบบจำลองสามารถประเมินสภาวะความอ่อนล้าของนักเตะในทีมได้
 
-\subsection{การทำ Moving Average Statistics และการป้องกัน Data Leakage}
-สร้างฟีเจอร์ฟอร์มการเล่นย้อนหลัง $N$ นัด (Rolling Windows 5 และ 10 นัด) สำหรับตัวแปรประตูที่ยิงได้, ประตูที่เสีย, ค่า xG และ xGA โดยการคำนวณจะใชเฉพาะข้อมูลนัดที่ $T-1, T-2, \dots, T-N$ ก่อนวันแข่งขันจริงในนัดที่ $T$ ดังแสดงในรูปที่ \ref{fig:rolling_window} เพื่อป้องกันปัญหาข้อมูลอนาคตรั่วไหลเข้าสู่แบบจำลอง (Data Leakage)
+\subsection{การคำนวณค่าเฉลี่ยเคลื่อนที่และการป้องกันข้อมูลรั่วไหล (Rolling Average Statistics)}
+ระบบทำการสร้างฟีเจอร์ฟอร์มการเล่นย้อนหลัง $N$ นัด (Rolling Windows $N=3, 5, 10$) สำหรับตัวแปรสำคัญ ได้แก่ ประตูที่ยิงได้ ประตูที่เสีย ค่า xG และ xGA โดยการคำนวณจะกำหนดให้ใช้เฉพาะข้อมูลการแข่งก่อนวันแข่งขันจริง ($T-1, T-2, \dots, T-N$) เพื่อป้องกันปัญหาข้อมูลอนาคตรั่วไหลเข้าสู่แบบจำลอง (Data Leakage)
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{images/rolling_window.png}
-    \caption{แผนภาพแสดงหลักการคำนวณ Rolling Average ย้อนหลังเพื่อป้องกันปัญหา Data Leakage}
-    \label{fig:rolling_window}
-\end{figure}
-
-\subsection{การแปลงราคาต่อรองเป็น Implied Probabilities}
-แปลงราคาต่อรองจากเจ้ามือ (Bookmaker Odds) ให้เป็นค่าความน่าจะเป็น พร้อมปรับปรุงค่า Margin Overround เพื่อใช้เป็นฟีเจอร์อ้างอิงและ Benchmark ของแบบจำลอง
+\subsection{การแปลงราคาต่อรองเป็นค่าความน่าจะเป็น (Implied Probabilities Conversion)}
+แปลงราคาต่อรองจากเจ้ามือรับพนัน (Bookmaker Odds) ให้เป็นค่าความน่าจะเป็นประเมินโดยตลาด (Implied Probabilities) พร้อมขจัดค่าส่วนต่างกำไรของตลาด (Margin Overround) เพื่อนำมาใช้เป็นตัวแปรทำนายและใช้เป็นเกณฑ์อ้างอิงมาตรฐาน (Benchmark) ในการวัดประสิทธิภาพโมเดล
 
 % -----------------------------------------------------------
 \section{การพัฒนาแบบจำลองและการแบ่งชุดข้อมูล}
 % -----------------------------------------------------------
 
 \subsection{การแบ่งชุดข้อมูลตามลำดับเวลา (Temporal Train-Test Split)}
-เนื่องจากข้อมูลการแข่งขันเป็นข้อมูลอนุกรมเวลา (Time-Series Data) การทดสอบจึงไม่สามารถใชการสุ่มแบบ K-Fold Cross Validation ปกติได้ เพราะจะทำให้ข้อมูลในอนาคตรั่วไหลไปอธิบายอดีต ผู้จัดทำจึงทำการแบ่งข้อมูลตามลำดับเวลาจริง (Temporal Split) ดังแสดงในรูปที่ \ref{fig:temporal_split}
+เนื่องจากข้อมูลการแข่งขันฟุตบอลเป็นข้อมูลอนุกรมเวลา (Time-Series Data) การประเมินผลจึงต้องแบ่งชุดข้อมูลตามลำดับเวลาจริง (Temporal Split) โดยกำหนดให้ชุดข้อมูลการแข่งขันในอดีต (เช่น ฤดูกาล 2018/19--2022/23) เป็นชุดข้อมูลฝึกสอน (Training Set) และใช้นัดการแข่งขันในฤดูกาลล่าสุด (เช่น ฤดูกาล 2023/24) เป็นชุดข้อมูลทดสอบ (Test Set) เพื่อจำลองสถานการณ์ทำนายอนาคตในโลกจริงและป้องกันการนำข้อมูลอนาคตมาฝึกสอนโมเดล
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{images/temporal_split.png}
-    \caption{การแบ่งชุดข้อมูลเพื่อการฝึกสอนและทดสอบตามลำดับเวลา (Temporal Train-Test Split)}
-    \label{fig:temporal_split}
-\end{figure}
-
-รายละเอียดการแบ่งชุดข้อมูลมีดังนี้
-\begin{itemize}
-    \item \textbf{Train Set:} ข้อมูลฤดูกาล 2014/2015 ถึง 2021/2022 (8 ฤดูกาล รวม 3,040 แมตช์)
-    \item \textbf{Validation Set:} ข้อมูลฤดูกาล 2022/2023 (1 ฤดูกาล รวม 380 แมตช์)
-    \item \textbf{Test Set:} ข้อมูลฤดูกาล 2023/2024 (1 ฤดูกาล รวม 380 แมตช์)
-\end{itemize}
-
-\subsection{การเลือกและปรับแต่งแบบจำลอง (Model Selection \& Tuning)}
-ผู้จัดทำได้เลือกใช้แบบจำลองทางสถิติและ Machine Learning รวม 5 แบบจำลอง ได้แก่ Logistic Regression, Random Forest, XGBoost, LightGBM และ CatBoost โดยทำการค้นหาพารามิเตอร์ที่เหมาะสมที่สุด (Hyperparameter Tuning) ผ่านกระบวนการ Grid Search และ Bayesian Optimization บน Validation Set
+\subsection{การเลือกและการฝึกสอนแบบจำลอง (Model Training \& Tuning)}
+ผู้จัดทำได้เลือกใช้แบบจำลองการเรียนรู้ของเครื่องประเภทจำแนกหลายกลุ่ม (Multi-class Classification) ได้แก่ Logistic Regression, Decision Tree และ Random Forest โดยทำการค้นหาพารามิเตอร์ที่เหมาะสมที่สุด (Hyperparameter Tuning) และคำนวณระดับความสำคัญของตัวแปรทำนาย (Feature Importance) เพื่อประเมินปัจจัยที่มีผลต่อการทำนาย
 
 % -----------------------------------------------------------
-\section{การทดสอบและประเมินผลระบบ (Testing \& Evaluation Framework)}
+\section{การทดสอบและการประกันคุณภาพระบบ (Testing \& Quality Assurance Framework)}
 % -----------------------------------------------------------
 
-การประเมินประสิทธิภาพของแบบจำลองบน Test Set จะวัดผลผ่านดัชนีทางสถิติที่ครอบคลุมทั้งด้านความแม่นยำและการทำนายค่าความน่าจะเป็น ดังนี้
+\subsection{การทดสอบซอฟต์แวร์อัตโนมัติ (Automated Unit Testing)}
+โครงงานนี้ให้ความสำคัญกับความถูกต้องและน่าเชื่อถือของระบบประมวลผลข้อมูล โดยได้จัดทำชุดทดสอบอัตโนมัติ (Unit Tests) เพื่อตรวจสอบความถูกต้องของฟังก์ชันคำนวณสถิติและการแปลงข้อมูลในระบบก่อนนำไปใช้งานจริง
+
+\subsection{ดัชนีการประเมินประสิทธิภาพแบบจำลอง (Evaluation Metrics)}
+การประเมินประสิทธิภาพของแบบจำลองบนชุดข้อมูลทดสอบวัดผลผ่านตัวชี้วัดทางสถิติที่ครอบคลุม ดังนี้
 
 \begin{enumerate}[label=\arabic*)]
     \item \textbf{Classification Metrics:} คำนวณค่า Accuracy, Precision, Recall และ F1-Score สำหรับผลการแข่งขันทั้ง 3 คลาส ($H, D, A$)
@@ -148,6 +151,5 @@ def update_elo(home_elo, away_elo, home_score, away_score, k=20):
         \text{Log Loss} = -\frac{1}{N} \sum_{i=1}^{N} \sum_{j=1}^{M} y_{ij} \log(p_{ij})
         \label{eq:logloss}
     \end{equation}
-    โดยที่ $N$ คือจำนวนแมตช์ทั้งหมด ($N=380$), $M$ คือจำนวนคลาส ($M=3$), $y_{ij}$ คือค่าจริง (1 หรือ 0) และ $p_{ij}$ คือค่าความน่าจะเป็นที่แบบจำลองทำนาย
-    \item \textbf{Ranked Probability Score (RPS):} คำนวณความคลาดเคลื่อนของการทำนายผลฟุตบอลที่มีลำดับสเกล \cite{hubacek2021forty}
+    โดยที่ $N$ คือจำนวนแมตช์ทั้งหมด, $M$ คือจำนวนคลาส ($M=3$), $y_{ij}$ คือค่าจริง (1 หรือ 0) และ $p_{ij}$ คือค่าความน่าจะเป็นที่แบบจำลองทำนาย
 \end{enumerate}
