@@ -90,19 +90,19 @@
 
 การทำนายผลการแข่งขันฟุตบอลถูกกำหนดให้เป็นโจทย์ที่ให้ผลลัพธ์เป็นความน่าจะเป็นของ 3 กลุ่ม ได้แก่ ทีมเจ้าบ้านชนะ (H), เสมอ (D) และทีมเยือนชนะ (A) โครงงานนี้เปรียบเทียบแบบจำลองหลายแนวทาง ดังนี้
 
-\paragraph*{1) Multinomial Logistic Regression}
+\par\noindent\textbf{1) Multinomial Logistic Regression}\par
 ขยาย Logistic Regression ไปสู่ผลลัพธ์มากกว่า 2 กลุ่ม โดยให้ความน่าจะเป็นของแต่ละผล $k \in \{H, D, A\}$ เป็น $P(y = k \mid x) = \exp(\beta_k^\top x) / \sum_{j} \exp(\beta_j^\top x)$ แบบจำลองนี้เรียบง่าย ตีความได้ และให้ความน่าจะเป็นที่ปรับเทียบดีเมื่อความสัมพันธ์ระหว่างตัวแปรกับผลลัพธ์ใกล้เคียงเชิงเส้น จึงใช้เป็นแบบจำลองพื้นฐานที่แบบจำลองอื่นต้องเอาชนะ
 
-\paragraph*{2) แบบจำลอง Double Poisson และการแก้ไขแบบ Dixon-Coles}
+\par\noindent\textbf{2) แบบจำลอง Double Poisson และการแก้ไขแบบ Dixon-Coles}\par
 จำนวนประตูของทีมเจ้าบ้านและทีมเยือนถูกจำลองเป็นตัวแปรสุ่มแบบปัวซง (Poisson) สองตัว โดยให้ค่าลอการิทึมของอัตราการทำประตูเป็นฟังก์ชันเชิงเส้นของผลต่างคะแนน Elo ก่อนการแข่งขัน (หารด้วย 400) ซึ่งประมาณค่าด้วย Poisson Regression จากนั้นนำความน่าจะเป็นของสกอร์ทุกค่ามาสร้างตารางร่วม (Score Grid) แล้วรวมเป็นความน่าจะเป็นของ H, D และ A การแก้ไขแบบ Dixon-Coles \cite{dixon1997modelling} ปรับความน่าจะเป็นของสกอร์ต่ำ (0--0, 1--0, 0--1 และ 1--1) ด้วยพารามิเตอร์ $\rho$ เพื่อแก้ปัญหาที่การแจกแจงปัวซงอิสระประเมินความน่าจะเป็นของสกอร์เหล่านี้คลาดเคลื่อน การทำนายใช้วิธี Walk-forward คือทำนายแต่ละฤดูกาลด้วยแบบจำลองที่ฝึกจากฤดูกาลก่อนหน้าเท่านั้น
 
-\paragraph*{3) Gradient Boosting}
+\par\noindent\textbf{3) Gradient Boosting}\par
 เป็นเทคนิค Ensemble Learning ที่สร้างต้นไม้ตัดสินใจขนาดเล็กหลายต้นต่อเนื่องกัน โดยใช้ \texttt{HistGradientBoostingClassifier} ของ Scikit-learn \cite{scikit-learn} เป็นแบบจำลองในการประมวลผลตัวแปรเชิงซ้อนก่อนการแข่งขัน เพื่อทำนายความน่าจะเป็นและวัดระดับความสำคัญของตัวแปร
 
-\paragraph*{4) Permutation Importance}
+\par\noindent\textbf{4) Permutation Importance}\par
 วัดความสำคัญของตัวแปรจากระดับที่ค่า Log Loss บนชุดทดสอบเพิ่มขึ้น เมื่อสลับค่าของตัวแปรนั้นแบบสุ่มโดยไม่เปลี่ยนค่าอื่น ตัวแปรที่เมื่อถูกสลับแล้วทำให้ Log Loss เพิ่มมากแสดงว่าให้ข้อมูลสำคัญต่อแบบจำลอง เนื่องจากตัวแปรผู้เล่นตัวจริง 22 ตำแหน่งมีความสัมพันธ์กันสูง จึงสลับค่าเป็นกลุ่มพร้อมกัน แทนการสลับทีละคอลัมน์
 
-\paragraph*{5) ตัวชี้วัดประสิทธิภาพ}
+\par\noindent\textbf{5) ตัวชี้วัดประสิทธิภาพ}\par
 ประเมิน 2 มิติ ได้แก่ มิติประสิทธิภาพโมเดลด้วย \textbf{Log Loss} (คุณภาพความน่าจะเป็น), \textbf{Ranked Probability Score (RPS)} (ความคลาดเคลื่อนสะสม) และ \textbf{Accuracy} ร่วมกับมิติทางการเงินด้วย \textbf{ROI / Yield} (เปอร์เซ็นต์กำไรสุทธิเทียบกับยอดลงเงิน) และ \textbf{Maximum Drawdown} (ระดับขาดทุนสะสมสูงสุด)
 
 % -----------------------------------------------------------
@@ -125,19 +125,19 @@
 \centering
 \caption{การเปรียบเทียบองค์ประกอบของงานวิจัยที่เกี่ยวข้องกับโครงงานนี้}
 \label{tab:compare_research}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{|l|c|c|c|c|c|c|}
+\small
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\begin{tabular}{|>{\raggedright\arraybackslash}p{3.15cm}|C{1.25cm}|C{1.25cm}|C{1.25cm}|C{1.45cm}|C{1.6cm}|C{1.6cm}|}
 \hline
-\textbf{การศึกษา / โครงงาน} & \textbf{สถิติผลสกอร์} & \textbf{อัตราต่อรอง} & \textbf{Elo / xG} & \textbf{ไลน์อัป / ฟอร์มผู้เล่น} & \textbf{ตารางแข่ง/ความเหนื่อยล้า} & \textbf{Backtesting / Staking} \\
+\textbf{การศึกษา / โครงงาน} & \textbf{สถิติผลสกอร์} & \textbf{อัตรา ต่อรอง} & \textbf{Elo / xG} & \textbf{ไลน์อัป / ฟอร์ม ผู้เล่น} & \textbf{ตารางแข่ง / ความ เหนื่อยล้า} & \textbf{Backtest / Staking} \\
 \hline
-แบบจำลองจำนวนประตูและการทดสอบกับตลาด \cite{dixon1997modelling} & \checkmark & \checkmark & -- & -- & -- & \checkmark \\ \hline
-ระบบจัดอันดับความแข็งแกร่ง (Elo, pi-rating) \cite{hvattum2010using, constantinou2013determining} & \checkmark & \checkmark & \checkmark & -- & -- & -- \\ \hline
-แบบจำลองจากผลสกอร์โดยไม่ใช้ราคาตลาด \cite{berrar2019incorporating, hubacek2021forty} & \checkmark & -- & \checkmark & -- & -- & -- \\ \hline
-Value Betting ด้วยราคาของเจ้ามือ \cite{kaunitz2017beating} & -- & \checkmark & -- & -- & -- & \checkmark \\ \hline
-\textbf{โครงงานนี้} & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
+แบบจำลองจำนวนประตูและการทดสอบกับตลาด \cite{dixon1997modelling} & \cmark & \cmark & -- & -- & -- & \cmark \\ \hline
+ระบบจัดอันดับความแข็งแกร่ง (Elo, pi-rating) \cite{hvattum2010using, constantinou2013determining} & \cmark & \cmark & \cmark & -- & -- & -- \\ \hline
+แบบจำลองจากผลสกอร์โดยไม่ใช้ราคาตลาด \cite{berrar2019incorporating, hubacek2021forty} & \cmark & -- & \cmark & -- & -- & -- \\ \hline
+Value Betting ด้วยราคาของเจ้ามือ \cite{kaunitz2017beating} & -- & \cmark & -- & -- & -- & \cmark \\ \hline
+\textbf{โครงงานนี้} & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark \\
 \hline
-\end{tabular}%
-}
+\end{tabular}
 \end{table}
 
 จากตารางที่ \ref{tab:compare_research} แสดงให้เห็นว่าโครงงานนี้บูรณาการตัวแปรก่อนการแข่งขันครอบคลุมสถิติขั้นสูง (Elo, xG) ฟอร์มผู้เล่นตัวจริง และภาระโปรแกรมแข่งขัน ร่วมกับการวิเคราะห์ราคาตลาดต่อรองและระบบทดสอบย้อนหลัง (Backtesting Engine) เพื่อประเมินความคุ้มค่าทางการเงิน

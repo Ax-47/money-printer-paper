@@ -78,8 +78,8 @@
 \centering
 \caption{สถาปัตยกรรมโมดูลการประมวลผลข้อมูลในระบบ (Data Pipeline Modules)}
 \label{tab:pipeline_architecture}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{|c|l|l|}
+\small
+\begin{tabular}{|c|l|>{\raggedright\arraybackslash}p{7.2cm}|}
 \hline
 \textbf{ลำดับ} & \textbf{คำสั่ง / โมดูล} & \textbf{หน้าที่การทำงานหลัก} \\
 \hline
@@ -90,8 +90,7 @@
 5 & \texttt{Model \& Backtesting} & ฝึกแบบจำลอง ทำนายความน่าจะเป็น คำนวณ +EV และจำลองการวางเงินทุน \\ \hline
 6 & \texttt{API Service} & ให้บริการตารางข้อมูล ผลการทำนาย และสัญญาณการเดิมพันผ่าน FastAPI \\
 \hline
-\end{tabular}%
-}
+\end{tabular}
 \end{table}
 
 ตัวแปรทุกตัวใช้เฉพาะข้อมูลที่ทราบ ณ เวลาเริ่มการแข่งขัน โดยหน้าต่างค่าเฉลี่ยย้อนหลังไม่รวมนัดปัจจุบัน และคะแนน Elo ใช้ค่าก่อนแข่ง ผลลัพธ์รวมเป็นตารางตัวแปรหลักสำหรับใช้ฝึกแบบจำลอง
