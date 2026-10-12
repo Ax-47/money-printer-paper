@@ -78,11 +78,11 @@ Wilcoxon Signed-rank Test (one-sided) & $p = 3.75 \times 10^{-75}$ \\
     \label{fig:feature_correlation}
 \end{figure}
 
-เพื่อตรวจว่าตัวแปรอื่นให้ข้อมูลเพิ่มจากคะแนน Elo จริงหรือไม่ ได้เปรียบเทียบ Logistic Regression ที่ใช้ \texttt{elo\_diff} อย่างเดียว (Log Loss $0.9740$) กับที่เพิ่มตัวแปรครั้งละหนึ่งตัว ผลแสดงดังตารางที่ \ref{tab:gain_over_elo}
+เพื่อตรวจว่าตัวแปรอื่นให้ข้อมูลเพิ่มจากคะแนน Elo จริงหรือไม่ ได้เปรียบเทียบ Logistic Regression ที่ใช้ \texttt{elo\_diff} อย่างเดียว (Log Loss $0.9740$) กับที่เพิ่มตัวแปรครั้งละหนึ่งตัว โดยฝึกด้วยฤดูกาล 2015--2022 และวัดผลบนฤดูกาล 2023 ของชุดฝึก (ใช้เฉพาะนัดที่มีค่าครบทั้งสองตัวแปร ประมาณ 16,250 นัด) ค่าในตารางนี้จึงไม่ใช่ค่าเดียวกับ Log Loss แบบ Walk-forward ในตารางที่ \ref{tab:forward_selection} ผลแสดงดังตารางที่ \ref{tab:gain_over_elo}
 
 \begin{table}[htbp]
 \centering
-\caption{Log Loss ที่ลดลงเมื่อเพิ่มตัวแปรหนึ่งตัวเข้าไปในแบบจำลองที่มีคะแนน Elo อยู่แล้ว}
+\caption{Log Loss บนฤดูกาล 2023 ที่ลดลงเมื่อเพิ่มตัวแปรหนึ่งตัวเข้าไปในแบบจำลองที่มีคะแนน Elo อยู่แล้ว}
 \label{tab:gain_over_elo}
 \begin{tabular}{|l|c|c|}
 \hline
