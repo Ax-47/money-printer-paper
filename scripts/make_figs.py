@@ -1,9 +1,11 @@
-"""Draw the Elo and fatigue figures in chapter 2 from money-printer-research's output.
+"""Draw the Elo and fatigue figures (chapter 2) and the learning curve (chapter 4).
 
 Usage: python scripts/make_figs.py ../money-printer-research theme/fonts images
-Needs data/clean/{elo,fatigue,schedule}.csv and data/predictions/backtest.csv there
-(uv run clean_data, then uv run backtest), plus matplotlib and polars.
+Reads, in money-printer-research: data/clean/{elo,fatigue,schedule}.csv,
+data/predictions/backtest.csv and data/report/learning_curve.html (uv run clean_data,
+backtest and learning_curve). Needs matplotlib and polars.
 """
+import re
 import sys
 from pathlib import Path
 
@@ -82,3 +84,34 @@ ax.legend(h1 + h2, l1 + l2, frameon=False, loc="upper left", fontsize=15)
 fig.tight_layout()
 fig.savefig(out / "fatigue_season.png")
 print(g.height, "league games;", g["fatigue"].min(), g["fatigue"].max(), g["g14"].max())
+
+# --- Learning curve, from the table and reference lines of learning_curve.html ---
+html = (research / "data/report/learning_curve.html").read_text(encoding="utf-8")
+cell = r"<td(?: class=num)?>([^<]*)</td>"
+rows = re.findall(r"<tr>" + cell * 6 + r"</tr>", html)
+fits = pl.DataFrame(
+    [(m, int(n.replace(",", "")), float(test)) for m, n, _, _, test, _ in rows],
+    schema=["model", "games", "test_log_loss"], orient="row",
+)
+prior = float(re.search(r"outcome shares only</tspan>.*?</tspan> ([0-9.]+)", html).group(1))
+market = float(re.search(r"bookmaker</tspan>.*?</tspan> ([0-9.]+)", html).group(1))
+names = {"logistic": ("Logistic Regression", "#2a78d6"), "logistic + sigmoid": ("Logistic + Sigmoid", "#eb6834"),
+         "boosted trees": ("Boosted Trees", "#1baf7a"), "poisson goals": ("Poisson Goals", "#eda100")}
+fig, ax = plt.subplots(figsize=(7.2, 4.4))
+for key, (label, color) in names.items():
+    f = fits.filter(pl.col("model") == key).sort("games")
+    ax.plot(f["games"], f["test_log_loss"], marker="o", ms=4, lw=1.8, color=color, label=label)
+ax.axhline(prior, color="grey", ls=":", lw=1.5)
+ax.axhline(market, color="black", ls="--", lw=1.2)
+ax.text(300, prior + 0.002, f"ทายจากสัดส่วนผลอย่างเดียว {prior:.4f}", color="dimgrey", fontsize=13)
+ax.text(300, market - 0.007, f"ราคาเจ้ามือ {market:.4f}", fontsize=13)
+ax.set_xscale("log")
+ticks = [250, 500, 1000, 2000, 4000, 8000, 16000]
+ax.set_xticks(ticks, [f"{t:,}" for t in ticks])
+ax.set_ylim(market - 0.012, 1.12)
+ax.grid(axis="y", color="#e6e6e6")
+ax.set_xlabel("จำนวนนัดที่ใช้ฝึกแบบจำลอง (สเกลลอการิทึม)")
+ax.set_ylabel("Log Loss บนชุดทดสอบ (ต่ำกว่าดีกว่า)")
+ax.legend(frameon=False, loc="center right", bbox_to_anchor=(1, 0.45), fontsize=14)
+fig.tight_layout()
+fig.savefig(out / "learning_curve.png")
