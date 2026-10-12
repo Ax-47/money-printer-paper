@@ -350,26 +350,34 @@ Asian Handicap ราคาเปิด (ขอบ $> 2\%$) & 644 & $+5.9\%$ ($-
 \caption{ผลของแผนการวางเงิน: เงินทุนสุดท้ายในประวัติจริง และโอกาสเสียเงินทุนครึ่งหนึ่งในประวัติจำลอง 3 ฤดูกาล}
 \label{tab:staking}
 \small
-\begin{tabular}{|>{\raggedright\arraybackslash}p{3.0cm}|l|>{\centering\arraybackslash}p{1.45cm}|>{\centering\arraybackslash}p{1.8cm}|>{\centering\arraybackslash}p{1.6cm}|>{\centering\arraybackslash}p{2.05cm}|}
+\begin{tabular}{|p{3.0cm}|>{\centering\arraybackslash}p{2.0cm}|>{\centering\arraybackslash}p{2.2cm}|>{\centering\arraybackslash}p{2.2cm}|>{\centering\arraybackslash}p{2.6cm}|}
 \hline
-\textbf{กลยุทธ์} & \textbf{แผนวางเงิน} & \textbf{ทุนสุดท้าย} & \textbf{Drawdown สูงสุด} & \textbf{โอกาสเสียครึ่ง} & \textbf{ค่ามัธยฐาน ทุนสุดท้าย} \\
+\textbf{แผนวางเงิน} & \textbf{ทุนสุดท้าย} & \textbf{Drawdown สูงสุด} & \textbf{โอกาสเสียครึ่ง} & \textbf{ค่ามัธยฐาน ทุนสุดท้าย} \\
 \hline
-แทงทีมต่อ & Flat & $0.01\times$ & $100\%$ & $75\%$ & $0.39\times$ \\
- & Martingale & $0.00\times$ & $100\%$ & $96\%$ & $0.00\times$ \\
+\multicolumn{5}{|l|}{\textit{แทงทีมต่อ}} \\
 \hline
-Model EV ราคา Pinnacle & Flat & $0.71\times$ & $97\%$ & $59\%$ & $0.84\times$ \\
- & Kelly & $0.01\times$ & $99\%$ & $95\%$ & $0.05\times$ \\
- & Quarter Kelly & $0.53\times$ & $72\%$ & $37\%$ & $0.79\times$ \\
+Flat & $0.01\times$ & $100\%$ & $75\%$ & $0.39\times$ \\
+Martingale & $0.00\times$ & $100\%$ & $96\%$ & $0.00\times$ \\
 \hline
-Model EV ราคาดีที่สุด & Flat & $4.80\times$ & $48\%$ & $35\%$ & $2.03\times$ \\
- & Kelly & $0.01\times$ & $100\%$ & $89\%$ & $0.22\times$ \\
- & Half Kelly & $25.84\times$ & $89\%$ & $56\%$ & $2.47\times$ \\
- & Quarter Kelly & $20.64\times$ & $61\%$ & $18\%$ & $2.39\times$ \\
+\multicolumn{5}{|l|}{\textit{Model EV ราคา Pinnacle}} \\
 \hline
-Value 1X2 ราคาดีที่สุด & Flat & $2.43\times$ & $42\%$ & $31\%$ & $1.47\times$ \\
- & Kelly & $53.06\times$ & $87\%$ & $34\%$ & $3.34\times$ \\
- & Quarter Kelly & $4.87\times$ & $36\%$ & $0\%$ & $1.61\times$ \\
- & Martingale & $0.00\times$ & $100\%$ & $99\%$ & $0.00\times$ \\
+Flat & $0.71\times$ & $97\%$ & $59\%$ & $0.84\times$ \\
+Kelly & $0.01\times$ & $99\%$ & $95\%$ & $0.05\times$ \\
+Quarter Kelly & $0.53\times$ & $72\%$ & $37\%$ & $0.79\times$ \\
+\hline
+\multicolumn{5}{|l|}{\textit{Model EV ราคาดีที่สุด}} \\
+\hline
+Flat & $4.80\times$ & $48\%$ & $35\%$ & $2.03\times$ \\
+Kelly & $0.01\times$ & $100\%$ & $89\%$ & $0.22\times$ \\
+Half Kelly & $25.84\times$ & $89\%$ & $56\%$ & $2.47\times$ \\
+Quarter Kelly & $20.64\times$ & $61\%$ & $18\%$ & $2.39\times$ \\
+\hline
+\multicolumn{5}{|l|}{\textit{Value 1X2 ราคาดีที่สุด}} \\
+\hline
+Flat & $2.43\times$ & $42\%$ & $31\%$ & $1.47\times$ \\
+Kelly & $53.06\times$ & $87\%$ & $34\%$ & $3.34\times$ \\
+Quarter Kelly & $4.87\times$ & $36\%$ & $0\%$ & $1.61\times$ \\
+Martingale & $0.00\times$ & $100\%$ & $99\%$ & $0.00\times$ \\
 \hline
 \end{tabular}
 \end{table}
