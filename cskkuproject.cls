@@ -28,9 +28,11 @@
 \newlength{\secondindentlength}
 \newlength{\thirdindentlength}
 
-\setlength{\firstindentlength}{3em}
-\setlength{\secondindentlength}{7.1em}
-\setlength{\thirdindentlength}{12.2em}
+% ย่อหน้าบรรทัดแรก 1.27 ซม. (0.5 นิ้ว) เท่ากันทุกระดับหัวข้อ
+% (เดิม 3em/7.1em/12.2em ของฟอนต์ที่ขยาย 1.4 เท่า ทำให้เนื้อความใต้หัวข้อย่อยเริ่มเกือบกลางหน้า)
+\setlength{\firstindentlength}{1.27cm}
+\setlength{\secondindentlength}{1.27cm}
+\setlength{\thirdindentlength}{1.27cm}
 
 \setlength{\parindent}{\firstindentlength}
 \setlength{\parskip}{0pt}
@@ -643,18 +645,19 @@
   {0.5\baselineskip}
   {0.0\baselineskip}
 
+% หัวข้อย่อยเยื้องทีละ 0.6 ซม.
 \titlespacing{\subsection}
-  {\firstindentlength}
+  {0.6cm}
   {0.5\baselineskip}
   {0.0\baselineskip}
 
 \titlespacing{\subsubsection}
-  {\secondindentlength}
+  {1.2cm}
   {0.5\baselineskip}
   {0.0\baselineskip}
 
 \titlespacing{\paragraph}
-  {\thirdindentlength}
+  {1.8cm}
   {0.5\baselineskip}
   {0.0\baselineskip}
 
