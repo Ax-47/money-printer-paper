@@ -111,7 +111,7 @@
 
 \subsection{การทำนายผลฟุตบอลและการประเมินประสิทธิภาพเทียบกับตลาดเดิมพัน}
 
-งานวิจัยยุคแรกมักใช้สถิติการแข่งขันย้อนหลัง เช่น จำนวนประตูและฟอร์มเหย้า-เยือน ผ่านโมเดลเชิงสถิติตระกูล Poisson \cite{dixon1997modelling} หรือระบบจัดอันดับ Rating \cite{hvattum2010using, constantinou2013determining} ซึ่งจากการประเมินโดย Hubáček และคณะ \cite{hubacek2021forty} บนชุดข้อมูลกว่า 2.1 แสนนัด พบว่าแบบจำลองที่ใช้เพียงผลสกอร์ย้อนหลังมีขีดจำกัดความแม่นยำอยู่เพียงร้อยละ 47.8--48.6 เท่านั้น ในขณะที่ราคาอัตราต่อรองจากตลาดเดิมพันสะท้อนความแม่นยำสูงถึงประมาณร้อยละ 53--55 เนื่องจากประมวลผลข้อมูลเชิงลึกในตลาดได้อย่างรวดเร็ว
+งานวิจัยยุคแรกมักใช้สถิติการแข่งขันย้อนหลัง เช่น จำนวนประตูและฟอร์มเหย้า-เยือน ผ่านโมเดลเชิงสถิติตระกูล Poisson \cite{dixon1997modelling} หรือระบบจัดอันดับ Rating \cite{hvattum2010using, constantinou2013determining} Hubáček และคณะ \cite{hubacek2021forty} นำแบบจำลองที่ใช้เพียงผลสกอร์ย้อนหลัง 9 แบบ (เช่น Double Poisson, Elo, pi-ratings และ Berrar ratings) มาทดสอบบนชุดข้อมูล Open International Soccer Database \cite{dubitzky2019open} จำนวน 91,155 นัด พบว่าทุกแบบให้ผลใกล้เคียงกันมาก โดยมี Accuracy อยู่ระหว่างร้อยละ 47.84--48.60 และ RPS ระหว่าง 0.2101--0.2134 ซึ่งผู้วิจัยตีความว่าเป็นขีดจำกัดของการทำนายจากผลสกอร์อย่างเดียว ทั้งนี้งานดังกล่าวไม่ได้เปรียบเทียบกับราคาของตลาดเดิมพัน
 
 \subsection{การใช้ Machine Learning ร่วมกับสถิติเชิงลึก และกลยุทธ์การเอาชนะตลาด}
 
@@ -131,8 +131,8 @@
 \textbf{การศึกษา / โครงงาน} & \textbf{สถิติผลสกอร์} & \textbf{อัตราต่อรอง} & \textbf{Elo / xG} & \textbf{ไลน์อัป / ฟอร์มผู้เล่น} & \textbf{ตารางแข่ง/ความเหนื่อยล้า} & \textbf{Backtesting / Staking} \\
 \hline
 แบบจำลองจำนวนประตูและการทดสอบกับตลาด \cite{dixon1997modelling} & \checkmark & \checkmark & -- & -- & -- & \checkmark \\ \hline
-ระบบจัดอันดับความแข็งแกร่ง (Elo, pi-rating) \cite{hvattum2010using, constantinou2013determining, hubacek2021forty} & \checkmark & \checkmark & \checkmark & -- & -- & -- \\ \hline
-การเรียนรู้ของเครื่องจากผลสกอร์ \cite{berrar2019incorporating} & \checkmark & -- & \checkmark & -- & -- & -- \\ \hline
+ระบบจัดอันดับความแข็งแกร่ง (Elo, pi-rating) \cite{hvattum2010using, constantinou2013determining} & \checkmark & \checkmark & \checkmark & -- & -- & -- \\ \hline
+แบบจำลองจากผลสกอร์โดยไม่ใช้ราคาตลาด \cite{berrar2019incorporating, hubacek2021forty} & \checkmark & -- & \checkmark & -- & -- & -- \\ \hline
 Value Betting ด้วยราคาของเจ้ามือ \cite{kaunitz2017beating} & -- & \checkmark & -- & -- & -- & \checkmark \\ \hline
 \textbf{โครงงานนี้} & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
 \hline
