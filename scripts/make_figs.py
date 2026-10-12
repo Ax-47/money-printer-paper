@@ -1,10 +1,13 @@
-"""Draw the Elo and fatigue figures (chapter 2) and the learning curve (chapter 4).
+"""Draw the Elo, xG and fatigue figures (chapter 2) and the learning curve (chapter 4).
 
 Usage: python scripts/make_figs.py ../money-printer-research theme/fonts images
 Reads, in money-printer-research: data/clean/{elo,fatigue,schedule}.csv,
 data/predictions/backtest.csv and data/report/learning_curve.html (uv run clean_data,
-backtest and learning_curve). Needs matplotlib and polars.
+backtest and learning_curve). The xG shot map reads scripts/data/understat_shots_26726.json,
+Understat's shots for Liverpool 2-0 Manchester City on 2024-12-01
+(https://understat.com/getMatchData/26726). Needs matplotlib and polars.
 """
+import json
 import re
 import sys
 from pathlib import Path
@@ -115,3 +118,46 @@ ax.set_ylabel("Log Loss บนชุดทดสอบ (ต่ำกว่าด
 ax.legend(frameon=False, loc="center right", bbox_to_anchor=(1, 0.45), fontsize=14)
 fig.tight_layout()
 fig.savefig(out / "learning_curve.png")
+
+# --- xG shot map of one match, from Understat's shot data ---
+match = json.loads((Path(__file__).parent / "data/understat_shots_26726.json").read_text())
+L, W = 105, 68  # pitch in metres; Understat gives X along the pitch and Y across, both 0-1
+fig, ax = plt.subplots(figsize=(9, 6.3))
+pitch = {"color": "#9aa5b1", "lw": 1.2, "zorder": 0}
+ax.plot([0, L, L, 0, 0], [0, 0, W, W, 0], **pitch)
+ax.plot([L / 2, L / 2], [0, W], **pitch)
+ax.add_patch(plt.Circle((L / 2, W / 2), 9.15, fill=False, **pitch))
+for x0, d in ((0, 1), (L, -1)):
+    for depth, width in ((16.5, 40.32), (5.5, 18.32)):
+        ax.plot([x0, x0 + d * depth, x0 + d * depth, x0],
+                [W / 2 - width / 2, W / 2 - width / 2, W / 2 + width / 2, W / 2 + width / 2], **pitch)
+    ax.plot([x0, x0], [W / 2 - 3.66, W / 2 + 3.66], color="#52514e", lw=3, zorder=0)
+sides = {"h": ("#c8102e", 1), "a": ("#6cabdd", -1)}  # home attacks right, away left
+for side, (color, d) in sides.items():
+    for shot in match["shots"][side]:
+        x, y, xg = float(shot["X"]), float(shot["Y"]), float(shot["xG"])
+        px = L * x if d == 1 else L * (1 - x)
+        py = W * (1 - y) if d == 1 else W * y
+        goal = shot["result"] == "Goal"
+        ax.scatter(px, py, s=40 + 900 * xg, color=color if goal else "none", edgecolor=color,
+                   lw=1.8, alpha=0.9, zorder=3)
+        if goal or xg > 0.4:
+            ax.annotate(f"{xg:.2f}", (px, py), xytext=(0, -14 - 12 * xg ** 0.5),
+                        textcoords="offset points", ha="center", fontsize=12, zorder=4)
+h, a = match["shots"]["h"], match["shots"]["a"]
+total = {k: sum(float(s["xG"]) for s in v) for k, v in (("h", h), ("a", a))}
+ax.text(L * 0.75, W + 3, f"Liverpool 2 (xG {total['h']:.2f}, {len(h)} ครั้ง)",
+        ha="center", color=sides["h"][0], fontsize=15)
+ax.text(L * 0.25, W + 3, f"Manchester City 0 (xG {total['a']:.2f}, {len(a)} ครั้ง)",
+        ha="center", color="#3d7fb3", fontsize=15)
+for xg in (0.05, 0.2, 0.5):
+    ax.scatter([], [], s=40 + 900 * xg, color="none", edgecolor="grey", label=f"xG {xg}")
+ax.scatter([], [], s=150, color="grey", label="เป็นประตู (วงทึบ)")
+ax.legend(frameon=False, loc="upper center", bbox_to_anchor=(0.5, -0.01), ncol=4,
+          fontsize=13, scatterpoints=1, handletextpad=0.4, columnspacing=1.6)
+ax.set_xlim(-2, L + 2)
+ax.set_ylim(-2, W + 7)
+ax.set_aspect("equal")
+ax.axis("off")
+fig.tight_layout()
+fig.savefig(out / "xg_shot_map.png")
