@@ -121,7 +121,7 @@ Wilcoxon Signed-rank Test (one-sided) & $p = 3.75 \times 10^{-75}$ \\
 \centering
 \caption{ผลการคัดเลือกกลุ่มตัวแปรแบบเดินหน้า (Walk-forward Log Loss ฤดูกาล 2021--2023)}
 \label{tab:forward_selection}
-\resizebox{\textwidth}{!}{%
+\small
 \begin{tabular}{|c|l|l|c|c|}
 \hline
 \textbf{ลำดับ} & \textbf{กลุ่มตัวแปรที่เพิ่ม} & \textbf{ความหมาย} & \textbf{Log Loss} & \textbf{ส่วนที่ลดลง} \\
@@ -131,8 +131,7 @@ Wilcoxon Signed-rank Test (one-sided) & $p = 3.75 \times 10^{-75}$ \\
 3 & \texttt{games\_14d\_all} & จำนวนนัดทุกรายการใน 14 วัน & $0.9818$ & $0.0010$ \\
 4 & \texttt{player\_prev\_min} & นาทีที่ผู้เล่นตัวจริงลงเล่นก่อนหน้า & $0.9811$ & $0.0007$ \\
 \hline
-\end{tabular}%
-}
+\end{tabular}
 \end{table}
 
 เมื่อนำไปวัดผลครั้งเดียวบนชุดทดสอบ (ฤดูกาล 2024--2025 และ 2025--2026) ได้ผลดังตารางที่ \ref{tab:feature_holdout} ชุดตัวแปรที่คัดเลือกดีกว่าการใช้ Elo อย่างเดียว และดีกว่าการใส่ทุกกลุ่มตัวแปร ซึ่งยืนยันว่ากลุ่มที่ไม่ถูกเลือก (รวมถึงดัชนีความเหนื่อยล้า วันพัก และแผนการเล่น) เพิ่มแต่สัญญาณรบกวน
@@ -186,7 +185,7 @@ Wilcoxon Signed-rank Test (one-sided) & $p = 3.75 \times 10^{-75}$ \\
 \centering
 \caption{ประสิทธิภาพของแบบจำลองบนชุดทดสอบ (ฤดูกาล 2024--2025 และ 2025--2026, 3,503 นัด)}
 \label{tab:model_comparison}
-\resizebox{\textwidth}{!}{%
+\small
 \begin{tabular}{|l|c|c|c|c|}
 \hline
 \textbf{แบบจำลอง} & \textbf{Log Loss} $\downarrow$ & \textbf{RPS} $\downarrow$ & \textbf{Brier} $\downarrow$ & \textbf{Accuracy} $\uparrow$ \\
@@ -199,8 +198,7 @@ Logistic + Sigmoid & $0.9877$ & $0.2007$ & $0.5888$ & $52.41\%$ \\
 \hline
 ราคาเจ้ามือ (อ้างอิง) & $0.9691$ & -- & -- & $54.1\%$ \\
 \hline
-\end{tabular}%
-}
+\end{tabular}
 \end{table}
 
 ความแตกต่างระหว่างแบบจำลองทั้ง 4 แบบน้อยกว่าช่วงความคลาดเคลื่อนมาตรฐาน ($\approx 0.008$) แต่ Logistic Regression ดีที่สุดหรือใกล้เคียงที่สุดในทุกตัวชี้วัด และเรียบง่ายที่สุด จึงถูกเลือกเป็นแบบจำลองหลักสำหรับการทดสอบย้อนหลังและการทำนายนัดที่กำลังจะมาถึง Gradient Boosting ซึ่งนำมาเพื่อตรวจหาความสัมพันธ์ไม่เชิงเส้น (บทที่ 3) ไม่ได้ให้ผลดีกว่า แสดงว่าสัญญาณของตัวแปรส่วนใหญ่เป็นเชิงเส้น และเมื่อข้อมูลฝึกมีน้อย Gradient Boosting จะเรียนรู้สัญญาณรบกวนจนแย่กว่าการทายจากสัดส่วนผล (ภาพที่ \ref{fig:learning_curve}) นอกจากนี้ Accuracy ที่ $52.41\%$ สูงกว่าช่วง $47.84$--$48.60\%$ ของแบบจำลองที่ใช้เพียงผลสกอร์ย้อนหลังที่ Hubáček และคณะ \cite{hubacek2021forty} รายงานไว้ (คนละชุดข้อมูล จึงเทียบได้เพียงคร่าว ๆ) แต่ต่ำกว่าการทายทีมต่อตามราคาปิดของ Pinnacle ซึ่งถูก $54.1\%$ บนนัดทดสอบชุดเดียวกัน (3,503 นัด)
@@ -302,8 +300,8 @@ $> 20\%$ & 4,728 & $26.5\%$ & $-226.7$ & $-4.80\%$ \\
 \centering
 \caption{ผลของกลยุทธ์ที่สำคัญ (รวม 5 ลีก ฤดูกาล 2016--2025)}
 \label{tab:strategy_results}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{|l|r|c|c|}
+\small
+\begin{tabular}{|>{\raggedright\arraybackslash}p{4.7cm}|r|>{\centering\arraybackslash}p{4.4cm}|>{\centering\arraybackslash}p{2.0cm}|}
 \hline
 \textbf{กลยุทธ์} & \textbf{เดิมพัน} & \textbf{ROI (ช่วง 95\%)} & \textbf{กำไรคาดหมาย ณ ราคาปิด} \\
 \hline
@@ -328,8 +326,7 @@ Model Draw (ขอบ $> 0$) & 9,821 & $+0.1\%$ ($-3.4\%$ ถึง $+3.7\%$) & 
 Over/Under 2.5 ราคาเปิด (ขอบ $> 2\%$) & 668 & $+5.5\%$ ($-2.4\%$ ถึง $+13.3\%$) & $+3.9\%$ \\
 Asian Handicap ราคาเปิด (ขอบ $> 2\%$) & 644 & $+5.9\%$ ($-1.0\%$ ถึง $+12.8\%$) & $+2.1\%$ \\
 \hline
-\end{tabular}%
-}
+\end{tabular}
 \end{table}
 
 ผลจากภาพที่ \ref{fig:strategy_close_ev} และตารางที่ \ref{tab:strategy_results} สรุปได้ดังนี้
@@ -352,30 +349,29 @@ Asian Handicap ราคาเปิด (ขอบ $> 2\%$) & 644 & $+5.9\%$ ($-
 \centering
 \caption{ผลของแผนการวางเงิน: เงินทุนสุดท้ายในประวัติจริง และโอกาสเสียเงินทุนครึ่งหนึ่งในประวัติจำลอง 3 ฤดูกาล}
 \label{tab:staking}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{|l|l|c|c|c|c|}
+\small
+\begin{tabular}{|>{\raggedright\arraybackslash}p{3.0cm}|l|>{\centering\arraybackslash}p{1.45cm}|>{\centering\arraybackslash}p{1.8cm}|>{\centering\arraybackslash}p{1.6cm}|>{\centering\arraybackslash}p{2.05cm}|}
 \hline
-\textbf{กลยุทธ์} & \textbf{แผนวางเงิน} & \textbf{ทุนสุดท้าย} & \textbf{Drawdown สูงสุด} & \textbf{โอกาสเสียครึ่ง} & \textbf{ค่ามัธยฐานทุนสุดท้าย} \\
+\textbf{กลยุทธ์} & \textbf{แผนวางเงิน} & \textbf{ทุนสุดท้าย} & \textbf{Drawdown สูงสุด} & \textbf{โอกาสเสียครึ่ง} & \textbf{ค่ามัธยฐาน ทุนสุดท้าย} \\
 \hline
 แทงทีมต่อ & Flat & $0.01\times$ & $100\%$ & $75\%$ & $0.39\times$ \\
-แทงทีมต่อ & Martingale & $0.00\times$ & $100\%$ & $96\%$ & $0.00\times$ \\
+ & Martingale & $0.00\times$ & $100\%$ & $96\%$ & $0.00\times$ \\
 \hline
 Model EV ราคา Pinnacle & Flat & $0.71\times$ & $97\%$ & $59\%$ & $0.84\times$ \\
-Model EV ราคา Pinnacle & Kelly & $0.01\times$ & $99\%$ & $95\%$ & $0.05\times$ \\
-Model EV ราคา Pinnacle & Quarter Kelly & $0.53\times$ & $72\%$ & $37\%$ & $0.79\times$ \\
+ & Kelly & $0.01\times$ & $99\%$ & $95\%$ & $0.05\times$ \\
+ & Quarter Kelly & $0.53\times$ & $72\%$ & $37\%$ & $0.79\times$ \\
 \hline
 Model EV ราคาดีที่สุด & Flat & $4.80\times$ & $48\%$ & $35\%$ & $2.03\times$ \\
-Model EV ราคาดีที่สุด & Kelly & $0.01\times$ & $100\%$ & $89\%$ & $0.22\times$ \\
-Model EV ราคาดีที่สุด & Half Kelly & $25.84\times$ & $89\%$ & $56\%$ & $2.47\times$ \\
-Model EV ราคาดีที่สุด & Quarter Kelly & $20.64\times$ & $61\%$ & $18\%$ & $2.39\times$ \\
+ & Kelly & $0.01\times$ & $100\%$ & $89\%$ & $0.22\times$ \\
+ & Half Kelly & $25.84\times$ & $89\%$ & $56\%$ & $2.47\times$ \\
+ & Quarter Kelly & $20.64\times$ & $61\%$ & $18\%$ & $2.39\times$ \\
 \hline
 Value 1X2 ราคาดีที่สุด & Flat & $2.43\times$ & $42\%$ & $31\%$ & $1.47\times$ \\
-Value 1X2 ราคาดีที่สุด & Kelly & $53.06\times$ & $87\%$ & $34\%$ & $3.34\times$ \\
-Value 1X2 ราคาดีที่สุด & Quarter Kelly & $4.87\times$ & $36\%$ & $0\%$ & $1.61\times$ \\
-Value 1X2 ราคาดีที่สุด & Martingale & $0.00\times$ & $100\%$ & $99\%$ & $0.00\times$ \\
+ & Kelly & $53.06\times$ & $87\%$ & $34\%$ & $3.34\times$ \\
+ & Quarter Kelly & $4.87\times$ & $36\%$ & $0\%$ & $1.61\times$ \\
+ & Martingale & $0.00\times$ & $100\%$ & $99\%$ & $0.00\times$ \\
 \hline
-\end{tabular}%
-}
+\end{tabular}
 \end{table}
 
 ผลที่สำคัญมีดังนี้
@@ -392,15 +388,15 @@ Value 1X2 ราคาดีที่สุด & Martingale & $0.00\times$ & $10
 
 แม้ Line Shopping จะมีกำไรคาดหมายเป็นบวก แต่การเก็บความได้เปรียบนี้ในทางปฏิบัติมีข้อจำกัด 3 ด้าน
 
-\paragraph*{1) ระยะเวลากว่าความได้เปรียบจะปรากฏเป็นกำไร}
+\par\noindent\textbf{1) ระยะเวลากว่าความได้เปรียบจะปรากฏเป็นกำไร}\par
 ผลการแข่งขันฟุตบอลมีความแปรปรวนสูง (ส่วนเบี่ยงเบนมาตรฐาน $\sigma$ ประมาณ 1.8 หน่วยต่อการเดิมพัน 1 หน่วยในตลาด 1X2 และต่ำกว่านี้ในตลาด Over/Under และ Asian Handicap ที่ราคาใกล้ 2.0) ตารางที่ \ref{tab:practicality_time} แสดงจำนวนฤดูกาลที่ต้องเดิมพันทั้ง 5 ลีก กว่ากำไรตามขนาดความได้เปรียบที่คาดหมาย $\mu$ จะสูงกว่าศูนย์ 2 เท่าของความคลาดเคลื่อนมาตรฐาน คือต้องใช้ $n \ge (2\sigma/\mu)^2$ เดิมพัน โดย $\sigma$ คำนวณแยกตามผลกำไรจริงของแต่ละกลยุทธ์
 
 \begin{table}[htbp]
 \centering
 \caption{จำนวนฤดูกาลที่ต้องเดิมพันกว่าความได้เปรียบจะปรากฏเป็นกำไร (5 ลีก)}
 \label{tab:practicality_time}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{|l|r|c|r|r|}
+\small
+\begin{tabular}{|>{\raggedright\arraybackslash}p{5.2cm}|>{\centering\arraybackslash}p{1.6cm}|>{\centering\arraybackslash}p{2.3cm}|>{\centering\arraybackslash}p{1.6cm}|>{\centering\arraybackslash}p{1.7cm}|}
 \hline
 \textbf{กลยุทธ์} & \textbf{เดิมพัน/ฤดูกาล} & \textbf{กำไรคาดหมาย ณ ราคาปิด} & \textbf{หน่วย/ฤดูกาล} & \textbf{ฤดูกาลที่ต้องใช้} \\
 \hline
@@ -410,14 +406,13 @@ Value O/U 2.5 ราคาเปิด (ขอบ $> 2\%$) & 95 & $+3.9\%$ & 4 &
 Value AH ราคาเปิด (ขอบ $> 2\%$) & 92 & $+2.1\%$ & 2 & 81 \\
 Model EV ราคาดีที่สุด ($EV > 2\%$) & 1,366 & $+0.6\%$ & 9 & 226 \\
 \hline
-\end{tabular}%
-}
+\end{tabular}
 \end{table}
 
-\paragraph*{2) การปิดบัญชีของเจ้ามือ}
+\par\noindent\textbf{2) การปิดบัญชีของเจ้ามือ}\par
 ราคาดีที่สุดมักมาจากเจ้ามือทั่วไป (Soft Bookmakers) ซึ่งจำกัดหรือปิดบัญชีของผู้ที่ชนะ ตามที่ Kaunitz และคณะ \cite{kaunitz2017beating} พบเมื่อทดลองด้วยเงินจริง การจำลองกระจายเดิมพันของกลยุทธ์ Value 1X2 ราคาเปิด ไปยังบัญชีหลายบัญชี โดยปิดบัญชีเมื่อกำไรถึงเกณฑ์ พบว่าถ้ามี 5 บัญชีและถูกปิดเมื่อกำไร 5 หน่วย จะวางเดิมพันได้เพียง 1,108 จาก 6,240 ครั้ง ได้กำไร $+32$ หน่วย และบัญชีสุดท้ายถูกปิดตั้งแต่เดือนกันยายน 2017 ส่วนกรณีที่ดีที่สุด (10 บัญชี ปิดเมื่อกำไร 20 หน่วย) ได้กำไร $+246$ หน่วยก่อนถูกปิดทั้งหมดในเดือนตุลาคม 2021
 
-\paragraph*{3) ตลาดแลกเปลี่ยน (Betting Exchange)}
+\par\noindent\textbf{3) ตลาดแลกเปลี่ยน (Betting Exchange)}\par
 Betfair Exchange ไม่ปิดบัญชีผู้ชนะ แต่เก็บค่าคอมมิชชันจากกำไรสุทธิ เมื่อใช้กฎเดียวกันที่ราคา Exchange (ข้อมูลฤดูกาล 2024--2025) ได้ ROI $-18.0\%$ จาก 318 เดิมพันเมื่อค่าคอมมิชชัน 2\% และ $-25.9\%$ จาก 110 เดิมพันเมื่อค่าคอมมิชชัน 5\% โดยกำไรคาดหมาย ณ ราคาปิดเท่ากับ $0.0\%$ และ $-1.1\%$ ตามลำดับ ความได้เปรียบจึงไม่มีอยู่ในตลาดที่ไม่ปิดบัญชีผู้ชนะ
 
 % -----------------------------------------------------------

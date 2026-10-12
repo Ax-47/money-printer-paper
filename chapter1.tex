@@ -33,7 +33,7 @@
 
 \begin{enumerate}[label=\arabic*)]
     \item \textbf{ขอบเขตด้านข้อมูลและช่วงเวลา:} ใช้ชุดข้อมูลการแข่งขันฟุตบอลย้อนหลังครอบคลุมฤดูกาล 2014--2015 ถึง 2025--2026 และฤดูกาล 2026--2027 ที่กำลังแข่งขันอยู่ (ถึงวันที่ 11 ตุลาคม 2026) จากแหล่งข้อมูลสาธารณะ ได้แก่
-    \begin{itemize}
+    \begin{itemize}[labelindent=0pt]
         \item \textit{Understat}: รวบรวมสถิติผลการแข่งขัน ค่าความคาดหวังในการทำประตู (xG, xA) และสถิติเชิงลึกรายบุคคลของผู้เล่น \cite{understat2024}
         \item \textit{Transfermarkt}: รวบรวมปฏิทินการแข่งขันครบทุกรายการ (รวมฟุตบอลถ้วยและรายการยุโรป) และแผนการเล่น (Formation) ของผู้เล่น 11 ตัวจริง \cite{transfermarkt2024}
         \item \textit{Football-Data.co.uk}: รวบรวมข้อมูลผลการแข่งขัน ยิงประตู และราคาอัตราต่อรองย้อนหลัง (Historical Betting Odds Data Service) จากเจ้ามือรับพนันหลายแห่ง สำหรับใช้ทดสอบแบบจำลองและประเมินผลตอบแทนทางการเงิน
@@ -45,20 +45,20 @@
     \item \textbf{ขอบเขตด้านกระบวนการและระบบโครงสร้าง:} พัฒนาท่อส่งข้อมูลแบบโมดูลาร์ด้วยภาษา Python ประกอบด้วย กระบวนการจัดเก็บข้อมูล, การทำความสะอาดและสร้างตัวแปรพร้อมการตรวจสอบสัญญาโครงสร้างข้อมูล (Pandera Data Contracts), การวิเคราะห์การเดิมพันและการทดสอบย้อนหลัง (Backtesting), การวิเคราะห์ราคาตลาด (Market \& Odds Analysis), ระบบทดสอบคำสั่งอัตโนมัติ และระบบเชื่อมต่อบริการทำนายผล (FastAPI)
 
     \item \textbf{ขอบเขตด้านตัวแปรและการวิเคราะห์ตลาด (Market Analysis):}
-    \begin{itemize}
+    \begin{itemize}[labelindent=0pt]
         \item ใช้เฉพาะตัวแปรที่รับรู้ได้ล่วงหน้าก่อนการแข่งขัน (Pre-match Data) ได้แก่ คะแนน Elo, ดัชนีความเหนื่อยล้า, ความหนาแน่นตารางแข่งขัน และฟอร์มผู้เล่น 11 ตัวจริง
         \item วิเคราะห์ราคาต่อรองอัตราจ่าย (Odds) เพื่อคำนวณค่าส่วนต่างเจ้ามือ (Overround / Vig) และแปลงเป็นความน่าจะเป็นของตลาด (Implied Probabilities)
     \end{itemize}
 
     \item \textbf{ขอบเขตด้านแบบจำลองและการประเมินผลกำไร:}
-    \begin{itemize}
+    \begin{itemize}[labelindent=0pt]
         \item เปรียบเทียบแบบจำลอง Multinomial Logistic Regression, Gradient-boosted Trees (HistGradientBoosting) และแบบจำลองจำนวนประตู Poisson ในการทำนายความน่าจะเป็น และเปรียบเทียบกับความน่าจะเป็นจากราคาของ Pinnacle
         \item ทดสอบชุดกลยุทธ์การเดิมพันที่ลงทะเบียนไว้ล่วงหน้า พร้อมการปรับแก้การทดสอบหลายครั้ง และแผนการวางเงิน (Staking Plans) ได้แก่ การวางเงินคงที่ (Fixed Staking), Kelly Criterion / Fractional Kelly และ Martingale
         \item แบ่งชุดข้อมูลทดสอบตามลำดับเวลา (Temporal Split / Walk-forward) เพื่อป้องกันปัญหาข้อมูลรั่วไหลจากอนาคต (Data Leakage)
     \end{itemize}
 
     \item \textbf{ตัวชี้วัดประสิทธิภาพ:} 
-    \begin{itemize}
+    \begin{itemize}[labelindent=0pt]
         \item \textit{ด้านแบบจำลอง:} Log Loss, Ranked Probability Score (RPS), Accuracy และ Permutation Importance
         \item \textit{ด้านการลงทุน/เดิมพัน:} อัตราผลตอบแทนจากการลงทุน (Yield / ROI), ผลกำไรสะสม (Net Profit/Loss) และระดับความเสี่ยงการลดลงของเงินทุน (Drawdown)
     \end{itemize}
